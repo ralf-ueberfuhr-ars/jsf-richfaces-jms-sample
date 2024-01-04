@@ -16,13 +16,17 @@
   <h1>Blog Posts</h1>
   <h2>Create New</h2>
   <h:form>
-    <h:outputLabel for="txtTitle" value="Title" />
-    <h:inputText id="txtTitle" value="#{createBlogPostBean.newBlogPost.title}" />
-    <h:message for="txtTitle"/>
-    <h:outputLabel for="txtContent" value="Content" />
-    <h:inputText id="txtContent" value="#{createBlogPostBean.newBlogPost.content}" />
-    <h:message for="txtContent"/>
-    <h:commandButton action="#{createBlogPostBean.action()}" value="Create Blog Post" />
+    <div>
+      <h:outputLabel for="txtTitle" value="Title"/>
+      <h:inputText id="txtTitle" value="#{createBlogPostBean.newBlogPost.title}"/>
+      <h:message for="txtTitle"/>
+    </div>
+    <div>
+      <h:outputLabel for="txtContent" value="Content"/>
+      <h:inputText id="txtContent" value="#{createBlogPostBean.newBlogPost.content}"/>
+      <h:message for="txtContent"/>
+    </div>
+    <h:commandButton action="#{createBlogPostBean.action()}" value="Create Blog Post"/>
     <h:messages globalOnly="true"/>
   </h:form>
   <h2>Existing Blog Posts</h2>
