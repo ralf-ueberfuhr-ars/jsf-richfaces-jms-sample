@@ -19,8 +19,27 @@
     <mapstruct.version>1.5.5.Final</mapstruct.version>
     <jakarta.api.version>9.0.0</jakarta.api.version>
     <jakarta.faces.stage>Development</jakarta.faces.stage>
+    <bootsfaces.version>1.6.0-SNAPSHOT</bootsfaces.version>
   </properties>
+  <repositories>
+    <repository>
+      <id>oss.sonatype.org-snapshot</id>
+      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+    </repository>
+  </repositories>
   <dependencies>
+    <dependency>
+      <groupId>net.bootsfaces</groupId>
+      <artifactId>bootsfaces</artifactId>
+      <version>${bootsfaces.version}</version>
+      <classifier>jakarta</classifier>
+    </dependency>
     <dependency>
       <groupId>jakarta.platform</groupId>
       <artifactId>jakarta.jakartaee-api</artifactId>
