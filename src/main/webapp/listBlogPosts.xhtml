@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:c="http://java.sun.com/jsp/jstl/core"
+>
+
+<h:head>
+  <title>Blog Posts</title>
+</h:head>
+
+<h:body>
+  <h1>Blog Posts</h1>
+  <h2>Create New</h2>
+  <h:form>
+    <h:outputLabel for="txtTitle" value="Title" />
+    <h:inputText id="txtTitle" value="#{createBlogPostBean.newBlogPost.title}" />
+    <h:message for="txtTitle"/>
+    <h:outputLabel for="txtContent" value="Content" />
+    <h:inputText id="txtContent" value="#{createBlogPostBean.newBlogPost.content}" />
+    <h:message for="txtContent"/>
+    <h:commandButton action="#{createBlogPostBean.action()}" value="Create Blog Post" />
+    <h:messages globalOnly="true"/>
+  </h:form>
+  <h2>Existing Blog Posts</h2>
+  <c:forEach items="#{listBlogPostsBean.blogPosts}" var="bp">
+    <h2>
+      <h:outputText value="#{bp.title}"/>
+    </h2>
+    <p>
+      <h:outputText value="#{bp.content}"/>
+    </p>
+  </c:forEach>
+</h:body>
+
+<div style="font-size: 0.8em; font-style: italic">
+  <h:outputText value="Stage:#{facesContext.application.projectStage}"/>
+</div>
+
+</html>
