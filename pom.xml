@@ -17,13 +17,14 @@
     <openliberty.maven.version>3.10</openliberty.maven.version>
     <lombok.version>1.18.30</lombok.version>
     <mapstruct.version>1.5.5.Final</mapstruct.version>
-    <jakarta.jakartaee-api.version>9.0.0</jakarta.jakartaee-api.version>
+    <jakarta.api.version>9.0.0</jakarta.api.version>
+    <jakarta.faces.stage>Development</jakarta.faces.stage>
   </properties>
   <dependencies>
     <dependency>
       <groupId>jakarta.platform</groupId>
       <artifactId>jakarta.jakartaee-api</artifactId>
-      <version>${jakarta.jakartaee-api.version}</version>
+      <version>${jakarta.api.version}</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
@@ -100,7 +101,7 @@
                 <bootstrapProperties>
                   <project.name>${final.name}</project.name>
                   <app.context.root>/</app.context.root>
-                  <app.faces.stage>Development</app.faces.stage>
+                  <app.faces.stage>${jakarta.faces.stage}</app.faces.stage>
                 </bootstrapProperties>
               </configuration>
             </plugin>
