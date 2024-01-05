@@ -16,11 +16,14 @@
     <maven-war-plugin.version>3.3.2</maven-war-plugin.version>
     <openliberty.maven.version>3.10</openliberty.maven.version>
     <openliberty.config.directory>src/main/liberty</openliberty.config.directory>
+    <openliberty.shared.resources.dir>${project.build.directory}/liberty/wlp/usr/shared/resources
+    </openliberty.shared.resources.dir>
     <lombok.version>1.18.30</lombok.version>
     <mapstruct.version>1.5.5.Final</mapstruct.version>
     <jakarta.api.version>9.0.0</jakarta.api.version>
     <jakarta.faces.stage>Development</jakarta.faces.stage>
-    <activemq.version>5.15.6</activemq.version>
+    <activemq.artifactId>activemq-rar</activemq.artifactId>
+    <activemq.version>6.0.1</activemq.version>
   </properties>
   <dependencies>
     <dependency>
@@ -42,7 +45,7 @@
     </dependency>
     <dependency>
       <groupId>org.apache.activemq</groupId>
-      <artifactId>activemq-rar</artifactId>
+      <artifactId>${activemq.artifactId}</artifactId>
       <version>${activemq.version}</version>
       <type>rar</type>
       <scope>provided</scope>
@@ -123,12 +126,15 @@
                   <project.name>${final.name}</project.name>
                   <app.context.root>/</app.context.root>
                   <app.faces.stage>${jakarta.faces.stage}</app.faces.stage>
-                  <activemq.version>${activemq.version}</activemq.version>
+                  <activemq.driver.file>
+                    ${settings.localRepository}/org/apache/activemq/${activemq.artifactId}/${activemq.version}/${activemq.artifactId}-${activemq.version}.rar
+                  </activemq.driver.file>
                 </bootstrapProperties>
               </configuration>
             </plugin>
           </plugins>
         </pluginManagement>
+        <!-- Lifecycle Binding -->
         <plugins>
           <plugin>
             <groupId>io.openliberty.tools</groupId>
@@ -145,6 +151,10 @@
                 </goals>
                 <configuration>
                   <outputDirectory>target/wlp-package</outputDirectory>
+                  <bootstrapProperties>
+                    <activemq.driver.file>${openliberty.shared.resources.dir}/${activemq.artifactId}-${activemq.version}.rar
+                    </activemq.driver.file>
+                  </bootstrapProperties>
                 </configuration>
               </execution>
             </executions>
@@ -156,13 +166,13 @@
             <executions>
               <execution>
                 <id>copy-amq-rar</id>
-                <phase>package</phase>
+                <phase>prepare-package</phase>
                 <goals>
                   <goal>copy-dependencies</goal>
                 </goals>
                 <configuration>
-                  <includeArtifactIds>activemq-rar</includeArtifactIds>
-                  <outputDirectory>${project.build.directory}/liberty/wlp/usr/shared/resources/</outputDirectory>
+                  <includeArtifactIds>${activemq.artifactId}</includeArtifactIds>
+                  <outputDirectory>${openliberty.shared.resources.dir}</outputDirectory>
                 </configuration>
               </execution>
             </executions>
