@@ -23,6 +23,7 @@ public class BlogPostInitializationConfig {
       BlogPostConfig.builder()
         .title("Welcome!")
         .content("This is a great blog!")
+        .initial(true)
         .build()
     );
   }

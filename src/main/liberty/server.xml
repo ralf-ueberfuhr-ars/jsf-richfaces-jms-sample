@@ -5,6 +5,8 @@
     <feature>jakartaee-9.1</feature>
   </featureManager>
 
+  <logging consoleLogLevel="INFO"/>
+
   <webApplication location="${project.name}.war" contextRoot="${app.context.root}">
     <classloader apiTypeVisibility="+third-party"/>
   </webApplication>
@@ -16,11 +18,11 @@
   <jndiEntry jndiName="faces/ProjectStage" value="${app.faces.stage}"/>
 
   <!-- Active MQ -->
-  <resourceAdapter id="activemq" location="${activemq.driver.file}" >
+  <resourceAdapter id="activemq" location="${activemq.driver.file}">
     <properties.activemq serverUrl="tcp://${AMQ_HOST}:${AMQ_PORT}" userName="${AMQ_USER}" password="${AMQ_PASSWORD}"/>
   </resourceAdapter>
 
-  <jmsTopicConnectionFactory jndiName="jms/TopicConnectionFactory">
+  <jmsTopicConnectionFactory jndiName="jms/ActiveMQConnectionFactory">
     <properties.activemq serverUrl="tcp://${AMQ_HOST}:${AMQ_PORT}"/>
   </jmsTopicConnectionFactory>
 
