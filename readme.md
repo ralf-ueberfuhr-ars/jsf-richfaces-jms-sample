@@ -23,3 +23,19 @@ unit and integration tests are run on pressing Enter in the command terminal; yo
 To launch the test page, open your browser at the following URL
 
     http://localhost:9080/index.html  
+
+## JMS
+
+We can use Active MQ in a [Docker container](https://hub.docker.com/r/rmohr/activemq):
+
+```bash
+docker pull rmohr/activemq
+docker run -p 61616:61616 -p 8161:8161 rmohr/activemq
+```
+
+Then, we can access the web UI using `http://localhost:8161/`.
+For this sample, we need a topic named `blogpost-events`.
+(administrative credentials are `admin` / `admin`)
+
+Samples with different messaging systems can be found in this 
+[GitHub-Repository](https://github.com/ueberfuhr-trainings/messaging-samples).

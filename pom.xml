@@ -15,10 +15,12 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven-war-plugin.version>3.3.2</maven-war-plugin.version>
     <openliberty.maven.version>3.10</openliberty.maven.version>
+    <openliberty.config.directory>src/main/liberty</openliberty.config.directory>
     <lombok.version>1.18.30</lombok.version>
     <mapstruct.version>1.5.5.Final</mapstruct.version>
     <jakarta.api.version>9.0.0</jakarta.api.version>
     <jakarta.faces.stage>Development</jakarta.faces.stage>
+    <activemq.version>5.15.6</activemq.version>
   </properties>
   <dependencies>
     <dependency>
@@ -37,6 +39,13 @@
       <groupId>org.mapstruct</groupId>
       <artifactId>mapstruct</artifactId>
       <version>${mapstruct.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.activemq</groupId>
+      <artifactId>activemq-rar</artifactId>
+      <version>${activemq.version}</version>
+      <type>rar</type>
+      <scope>provided</scope>
     </dependency>
   </dependencies>
   <build>
@@ -71,6 +80,16 @@
             </annotationProcessorPaths>
           </configuration>
         </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-dependency-plugin</artifactId>
+          <version>3.2.0</version>
+        </plugin>
+        <plugin>
+          <groupId>io.openliberty.tools</groupId>
+          <artifactId>liberty-maven-plugin</artifactId>
+          <version>${openliberty.maven.version}</version>
+        </plugin>
       </plugins>
     </pluginManagement>
   </build>
@@ -96,12 +115,15 @@
               <version>${openliberty.maven.version}</version>
               <configuration>
                 <include>runnable</include>
+                <serverXmlFile>${openliberty.config.directory}/server.xml</serverXmlFile>
+                <serverEnvFile>${openliberty.config.directory}/server.env</serverEnvFile>
                 <serverName>${final.name}</serverName>
                 <serverStartTimeout>60</serverStartTimeout>
                 <bootstrapProperties>
                   <project.name>${final.name}</project.name>
                   <app.context.root>/</app.context.root>
                   <app.faces.stage>${jakarta.faces.stage}</app.faces.stage>
+                  <activemq.version>${activemq.version}</activemq.version>
                 </bootstrapProperties>
               </configuration>
             </plugin>
@@ -111,7 +133,6 @@
           <plugin>
             <groupId>io.openliberty.tools</groupId>
             <artifactId>liberty-maven-plugin</artifactId>
-            <version>${openliberty.maven.version}</version>
             <executions>
               <execution>
                 <id>package-server</id>
@@ -124,6 +145,24 @@
                 </goals>
                 <configuration>
                   <outputDirectory>target/wlp-package</outputDirectory>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+          <!-- - - - - - - copy AMQ resource adapter to shared resources - - - -->
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-dependency-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>copy-amq-rar</id>
+                <phase>package</phase>
+                <goals>
+                  <goal>copy-dependencies</goal>
+                </goals>
+                <configuration>
+                  <includeArtifactIds>activemq-rar</includeArtifactIds>
+                  <outputDirectory>${project.build.directory}/liberty/wlp/usr/shared/resources/</outputDirectory>
                 </configuration>
               </execution>
             </executions>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<server description="${project.name}">
+
+  <featureManager>
+    <feature>jakartaee-9.1</feature>
+  </featureManager>
+
+  <webApplication location="${project.name}.war" contextRoot="${app.context.root}">
+    <classloader apiTypeVisibility="+third-party"/>
+  </webApplication>
+
+  <!-- https://github.com/OpenLiberty/open-liberty/issues/1357 -->
+  <basicRegistry id="basic" realm="dummyRealm">
+  </basicRegistry>
+
+  <jndiEntry jndiName="faces/ProjectStage" value="${app.faces.stage}"/>
+
+  <!-- Active MQ -->
+  <resourceAdapter id="activemq" location="${shared.resource.dir}/activemq-rar-${activemq.version}.rar" >
+    <properties.activemq serverUrl="tcp://${AMQ_HOST}:${AMQ_PORT}" userName="${AMQ_USER}" password="${AMQ_PASSWORD}"/>
+  </resourceAdapter>
+
+  <jmsTopicConnectionFactory jndiName="jms/TopicConnectionFactory">
+    <properties.activemq serverUrl="tcp://${AMQ_HOST}:${AMQ_PORT}"/>
+  </jmsTopicConnectionFactory>
+
+  <jmsTopic id="blogpost-events-topic" jndiName="jms/BlogPostEventsTopic">
+    <properties.activemq PhysicalName="blogpost-events"/>
+  </jmsTopic>
+
+</server>
