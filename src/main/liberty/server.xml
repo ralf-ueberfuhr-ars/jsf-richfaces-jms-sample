@@ -5,6 +5,8 @@
     <feature>jakartaee-9.1</feature>
   </featureManager>
 
+  <httpEndpoint httpPort="${SERVER_HTTP_PORT}" httpsPort="${SERVER_HTTPS_PORT}" host="${SERVER_VHOST}"/>
+
   <logging consoleLogLevel="INFO"/>
 
   <webApplication location="${project.name}.war" contextRoot="${app.context.root}">

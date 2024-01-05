@@ -37,5 +37,7 @@ Then, we can access the web UI using `http://localhost:8161/`.
 For this sample, we need a topic named `blogpost-events`.
 (administrative credentials are `admin` / `admin`)
 
+A Jakarta EE / Liberty based consumer can be found [here](consumer).
+
 Samples with different messaging systems can be found in this 
 [GitHub-Repository](https://github.com/ueberfuhr-trainings/messaging-samples).
