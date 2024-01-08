@@ -1,5 +1,7 @@
 # Java Server Faces with RichFaces and JMS - Sample
 
+[![CI Build](https://github.com/ralf-ueberfuhr-ars/jsf-richfaces-jms-sample/actions/workflows/ci.yml/badge.svg)](https://github.com/ralf-ueberfuhr-ars/jsf-richfaces-jms-sample/actions/workflows/ci.yml)
+
 ## Introduction
 
 The generation of the executable jar file can be performed by issuing the following command
