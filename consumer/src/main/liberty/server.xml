@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<server description="${project.name}">
+
+  <featureManager>
+    <feature>jakartaee-9.1</feature>
+  </featureManager>
+
+  <logging consoleLogLevel="INFO"/>
+
+  <httpEndpoint
+    httpPort="${SERVER_HTTP_PORT}"
+    httpsPort="${SERVER_HTTPS_PORT}"
+    host="${SERVER_VHOST}"/>
+
+  <webApplication id="blogpost-consumer-app" location="${project.name}.war" contextRoot="${app.context.root}">
+    <classloader apiTypeVisibility="+third-party"/>
+  </webApplication>
+
+  <!-- https://github.com/OpenLiberty/open-liberty/issues/1357 -->
+  <basicRegistry id="basic" realm="dummyRealm">
+  </basicRegistry>
+
+  <!-- Active MQ -->
+  <!-- https://activemq.apache.org/resource-adapter -->
+  <resourceAdapter id="ActiveMQResourceAdapter" location="${activemq.driver.file}">
+    <properties.activemq
+      serverUrl="tcp://${AMQ_HOST}:${AMQ_PORT}"
+      userName="${AMQ_USER}"
+      password="${AMQ_PASSWORD}"
+      clientid="${project.name}"
+      useInboundSession="true"
+    />
+  </resourceAdapter>
+
+  <jmsActivationSpec id="blogpost-consumer-app/BlogPostEventHandlerMDB">
+    <properties.ActiveMQResourceAdapter
+      destination="blogpost-events"
+      destinationType="jakarta.jms.Topic"
+    />
+  </jmsActivationSpec>
+
+</server>

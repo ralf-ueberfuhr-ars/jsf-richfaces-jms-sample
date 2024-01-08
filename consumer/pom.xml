@@ -4,11 +4,11 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
   <groupId>de.samples.javaee</groupId>
-  <artifactId>richfaces-jms-sample</artifactId>
+  <artifactId>blogpost-consumer-app</artifactId>
   <version>1.0-SNAPSHOT</version>
   <packaging>war</packaging>
   <properties>
-    <final.name>richfaces-jms-sample</final.name>
+    <final.name>blogpost-consumer-app</final.name>
     <maven.compiler.source>17</maven.compiler.source>
     <maven.compiler.target>17</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -18,42 +18,11 @@
     <openliberty.shared.resources.dir>${project.build.directory}/liberty/wlp/usr/shared/resources
     </openliberty.shared.resources.dir>
     <lombok.version>1.18.30</lombok.version>
-    <mapstruct.version>1.5.5.Final</mapstruct.version>
     <jakarta.api.version>9.0.0</jakarta.api.version>
-    <jakarta.faces.stage>Development</jakarta.faces.stage>
     <activemq.artifactId>activemq-rar</activemq.artifactId>
     <activemq.version>6.0.1</activemq.version>
-    <bootsfaces.version>1.6.0-SNAPSHOT</bootsfaces.version>
   </properties>
-  <repositories>
-    <repository>
-      <id>oss.sonatype.org-snapshot</id>
-      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-      <releases>
-        <enabled>false</enabled>
-      </releases>
-      <snapshots>
-        <enabled>true</enabled>
-      </snapshots>
-    </repository>
-  </repositories>
   <dependencies>
-    <dependency>
-      <groupId>net.bootsfaces</groupId>
-      <artifactId>bootsfaces</artifactId>
-      <version>${bootsfaces.version}</version>
-      <classifier>jakarta</classifier>
-      <exclusions>
-        <exclusion>
-          <groupId>jakarta.el</groupId>
-          <artifactId>jakarta.el-api</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>jakarta.faces</groupId>
-          <artifactId>jakarta.faces-api</artifactId>
-        </exclusion>
-      </exclusions>
-    </dependency>
     <dependency>
       <groupId>jakarta.platform</groupId>
       <artifactId>jakarta.jakartaee-api</artifactId>
@@ -65,11 +34,6 @@
       <artifactId>lombok</artifactId>
       <version>${lombok.version}</version>
       <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.mapstruct</groupId>
-      <artifactId>mapstruct</artifactId>
-      <version>${mapstruct.version}</version>
     </dependency>
     <dependency>
       <groupId>org.apache.activemq</groupId>
@@ -97,24 +61,8 @@
                 <artifactId>lombok</artifactId>
                 <version>${lombok.version}</version>
               </path>
-              <!-- This is needed when using Lombok 1.18.16 and above -->
-              <path>
-                <groupId>org.projectlombok</groupId>
-                <artifactId>lombok-mapstruct-binding</artifactId>
-                <version>0.2.0</version>
-              </path>
-              <path>
-                <groupId>org.mapstruct</groupId>
-                <artifactId>mapstruct-processor</artifactId>
-                <version>${mapstruct.version}</version>
-              </path>
             </annotationProcessorPaths>
           </configuration>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-dependency-plugin</artifactId>
-          <version>3.2.0</version>
         </plugin>
         <plugin>
           <groupId>io.openliberty.tools</groupId>
@@ -153,7 +101,6 @@
                 <bootstrapProperties>
                   <project.name>${final.name}</project.name>
                   <app.context.root>/</app.context.root>
-                  <app.faces.stage>${jakarta.faces.stage}</app.faces.stage>
                   <activemq.driver.file>
                     ${settings.localRepository}/org/apache/activemq/${activemq.artifactId}/${activemq.version}/${activemq.artifactId}-${activemq.version}.rar
                   </activemq.driver.file>

@@ -24,5 +24,6 @@ public class BlogPost {
   @NotNull
   private String content;
   private LocalDateTime timestamp;
+  private boolean initial;
 
 }

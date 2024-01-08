@@ -8,7 +8,7 @@ import jakarta.interceptor.Interceptor;
 import jakarta.interceptor.InvocationContext;
 import lombok.SneakyThrows;
 
-@Priority(5)
+@Priority(5) // do this before validation to allow publishing events on exception too
 @Interceptor
 @PublishEvent(Object.class)
 public class PublishEventInterceptor {
@@ -25,8 +25,7 @@ public class PublishEventInterceptor {
 
   @AroundInvoke
   public Object fireEvent(InvocationContext invocation) throws Exception {
-    //noinspection unchecked
-    final var eventType = AnnotationUtils
+    @SuppressWarnings("unchecked") final var eventType = AnnotationUtils
       .findAnnotation(invocation.getMethod(), PublishEvent.class)
       .map((PublishEvent publishEvent) -> (Class<Object>) publishEvent.value());
     final var event = eventType

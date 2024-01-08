@@ -14,7 +14,7 @@ import java.util.Set;
 import java.util.stream.Stream;
 
 
-@Priority(10)
+@Priority(3)
 @Interceptor
 @Validated
 public class ValidatedInterceptor {
