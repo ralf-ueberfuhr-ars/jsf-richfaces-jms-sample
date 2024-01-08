@@ -25,9 +25,14 @@ public class PublishEventInterceptor {
 
   @AroundInvoke
   public Object fireEvent(InvocationContext invocation) throws Exception {
+    final var annotation = AnnotationUtils
+      .findAnnotation(invocation.getMethod(), PublishEvent.class);
     @SuppressWarnings("unchecked") final var eventType = AnnotationUtils
       .findAnnotation(invocation.getMethod(), PublishEvent.class)
       .map((PublishEvent publishEvent) -> (Class<Object>) publishEvent.value());
+    final var mode = annotation
+      .map(PublishEvent::mode)
+      .orElse(PublishEvent.PublishingMode.SYNC_AND_ASYNC);
     final var event = eventType
       .map(clazz -> createEventObject(invocation, clazz));
     // if something is wrong until here, we do not invoke the service's create-method
@@ -35,7 +40,20 @@ public class PublishEventInterceptor {
     final var result = invocation.proceed();
     // if an exception occured, the event is not fired
     // now, we fire the event
-    event.ifPresent(e -> eventType.ifPresent(clazz -> eventPublisher.select(clazz).fire(e)));
+
+    // eventPublisher.select(eventType).fire(e)
+    event.ifPresent(
+      e -> eventType
+        .map(eventPublisher::select)
+        .ifPresent(publisher -> {
+          if(mode.isFireSync()) {
+            publisher.fire(e);
+          }
+          if(mode.isFireAsync()) {
+            publisher.fireAsync(e);
+          }
+        })
+    );
     // and we need to return the service's result to the invoker (the controller)
     return result;
   }

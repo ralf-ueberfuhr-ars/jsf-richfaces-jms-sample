@@ -3,7 +3,7 @@ package de.samples.javaee.richfaces.jms.sample.messaging;
 import de.samples.javaee.richfaces.jms.sample.domain.BlogPostCreatedEvent;
 import de.samples.javaee.richfaces.jms.sample.messaging.config.BlogPostEventsTopic;
 import de.samples.javaee.richfaces.jms.sample.messaging.config.MessageFactory;
-import jakarta.enterprise.event.Observes;
+import jakarta.enterprise.event.ObservesAsync;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import jakarta.jms.JMSException;
@@ -20,7 +20,8 @@ public class BlogPostCreatedMessageProducer {
   private final MessageProducer sender;
   private final MessageFactory messageFactory;
 
-  void sendBlogPostCreated(@Observes BlogPostCreatedEvent evt) throws JMSException {
+  // We listen to both synchronous and asynchronous event publishings.
+  void sendBlogPostCreated(@ObservesAsync BlogPostCreatedEvent evt) throws JMSException {
     final var post = evt.blogPost();
     if (post.isInitial()) {
       return;
