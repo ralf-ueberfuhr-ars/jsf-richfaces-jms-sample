@@ -22,7 +22,7 @@ public class BlogPostInitializer {
   private final BlogPostConfigMapper mapper;
 
   void initBlogPosts(@Observes @Initialized(ApplicationScoped.class) Object pointless) {
-    log.log(Level.INFO, "Initializing blogposts with config: {0}", new Object[]{config});
+    logger.log(Level.INFO, "Initializing blogposts with config: {0}", new Object[]{config});
     if (service.count() == 0 && config.isEnabled()) {
       config.getBlogposts()
         .stream()

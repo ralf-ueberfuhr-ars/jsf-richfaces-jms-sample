@@ -11,7 +11,7 @@ import java.util.logging.Level;
 public class BlogPostEventLogger {
 
   void logBlogPostCreated(@Observes BlogPostCreatedEvent evt) {
-    log.log(Level.INFO, "BlogPost created: {0}", new Object[]{evt.blogPost()});
+    logger.log(Level.INFO, "BlogPost created: {0}", new Object[]{evt.blogPost()});
   }
 
 }
